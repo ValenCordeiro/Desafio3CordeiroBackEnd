@@ -4,8 +4,8 @@ class ProductManager {
     constructor(filePath) {
         this.path = filePath
         this.products = []
-        this.productIdCounter = 1
         this.loadProducts()
+        this.productIdCounter = this.calculateNextProductId()
     }
 
     loadProducts() {
@@ -19,7 +19,13 @@ class ProductManager {
             this.products = []
         }
     }
-
+    
+    calculateNextProductId() {
+        const ids = this.products.map(prod => prod.id)
+        const maxId = Math.max(...ids)
+        return maxId + 1
+    }
+    
     saveProducts() {
         try {
             const data = JSON.stringify(this.products, null, 2)
